@@ -1,0 +1,1169 @@
+``html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Meenal! ✨🎂</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,800;1,400;1,600&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --color-gold: #fbbf24;
+      --color-carnival-pink: #f472b6;
+      --color-carnival-violet: #8b5cf6;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(ellipse at bottom, #111827 0%, #030712 100%);
+      color: #f3f4f6;
+      overflow-x: hidden;
+    }
+
+    .font-serif-title {
+      font-family: 'Playfair Display', serif;
+    }
+
+    .font-handwriting {
+      font-family: 'Dancing Script', cursive;
+    }
+
+    .font-polaroid {
+      font-family: 'Caveat', cursive;
+    }
+
+    /* Fairy Light String Animation */
+    .fairy-bulb {
+      animation: twinkle 1.8s infinite alternate ease-in-out;
+    }
+    .fairy-bulb:nth-child(2n) { animation-delay: 0.3s; animation-duration: 2.1s; }
+    .fairy-bulb:nth-child(3n) { animation-delay: 0.7s; animation-duration: 1.5s; }
+    .fairy-bulb:nth-child(4n) { animation-delay: 1.1s; animation-duration: 2.4s; }
+
+    @keyframes twinkle {
+      0% { opacity: 0.35; filter: drop-shadow(0 0 2px currentColor); transform: scale(0.92); }
+      100% { opacity: 1; filter: drop-shadow(0 0 10px currentColor); transform: scale(1.1); }
+    }
+
+    /* Candle Flame Animation */
+    @keyframes flicker {
+      0%, 100% { transform: scale(1) rotate(-1deg); opacity: 0.95; }
+      25% { transform: scale(1.08, 0.95) rotate(2deg); opacity: 1; }
+      50% { transform: scale(0.95, 1.05) rotate(-2deg); opacity: 0.9; }
+      75% { transform: scale(1.04, 1.02) rotate(1deg); opacity: 1; }
+    }
+    .flame {
+      animation: flicker 0.9s infinite ease-in-out;
+      transform-origin: center bottom;
+      transition: all 0.5s ease-out;
+    }
+    .flame.extinguished {
+      opacity: 0 !important;
+      transform: scale(0.1) translateY(-10px) !important;
+    }
+
+    /* Smoke Puff */
+    .smoke-particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: rgba(220, 220, 230, 0.6);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: riseAndFade 1.4s forwards ease-out;
+    }
+    @keyframes riseAndFade {
+      0% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+      100% { transform: translate(var(--dx), -45px) scale(3.5); opacity: 0; filter: blur(4px); }
+    }
+
+    /* Polaroid 3D Tilt */
+    .polaroid-card {
+      transition: transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.35s ease;
+      box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.6), 0 0 25px rgba(244, 114, 182, 0.2);
+    }
+    .polaroid-card:hover {
+      transform: translateY(-6px) rotate(1deg) scale(1.02);
+      box-shadow: 0 25px 45px -5px rgba(0, 0, 0, 0.75), 0 0 35px rgba(244, 114, 182, 0.35);
+    }
+
+    /* Floating Balloons */
+    @keyframes balloonFloat {
+      0% { transform: translateY(115vh) translateX(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.95; }
+      90% { opacity: 0.95; }
+      100% { transform: translateY(-20vh) translateX(var(--drift)) rotate(var(--rot)); opacity: 0; }
+    }
+    .floating-balloon {
+      animation: balloonFloat var(--speed) linear infinite;
+      animation-delay: var(--delay);
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.15s ease-out;
+    }
+    .floating-balloon:hover {
+      transform: scale(1.15) !important;
+    }
+
+    /* Envelope 3D */
+    .letter-envelope {
+      perspective: 1000px;
+    }
+    .envelope-flap {
+      transform-origin: top;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .envelope-open .envelope-flap {
+      transform: rotateX(180deg);
+      z-index: 5;
+    }
+    .letter-paper {
+      transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s, opacity 0.6s ease;
+    }
+    .envelope-open .letter-paper {
+      transform: translateY(-110px);
+      z-index: 20;
+    }
+
+    /* Glassmorphism panel */
+    .glass-card {
+      background: rgba(17, 24, 39, 0.65);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Pulse Glow */
+    .glow-gold {
+      text-shadow: 0 0 15px rgba(251, 191, 36, 0.6), 0 0 35px rgba(244, 114, 182, 0.35);
+    }
+
+    /* Flip Card */
+    .flip-card-inner {
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+    .flip-card:hover .flip-card-inner,
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+  </style>
+</head>
+<body class="relative min-h-screen selection:bg-pink-500 selection:text-white">
+
+  <!-- Interactive Twinkling Canvas Background -->
+  <canvas id="starfieldCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+  <!-- Floating Fairy Lights Garland at Top -->
+  <div class="fixed top-0 left-0 right-0 z-30 pointer-events-none overflow-hidden select-none">
+    <svg class="w-full h-14 md:h-16" viewBox="0 0 1200 60" preserveAspectRatio="none">
+      <path d="M 0 15 Q 150 45 300 20 T 600 25 T 900 18 T 1200 25" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" />
+    </svg>
+    <div class="absolute top-2 w-full flex justify-around px-4">
+      <span class="fairy-bulb inline-block w-3.5 h-3.5 md:w-4 md:h-4 rounded-full bg-amber-300 text-amber-300 shadow-lg"></span>
+      <span class="fairy-bulb inline-block w-3.5 h-3.5 md:w-4 md:h-4 rounded-full bg-pink-400 text-pink-400 shadow-lg"></span>
+      <span class="fairy-bulb inline-block w-3.5 h-3.5 md:w-4 md:h-4 rounded-full bg-cyan-300 text-cyan-300 shadow-lg"></span>
+      <span class="fairy-bulb inline-block w-3.5 h-3.5 md:w-4 md:h-4 rounded-full bg-purple-400 text-purple-400 shadow-lg"></span>
+      <span class="fairy-bulb inline-block w-3.5 h-3.5 md:w-4 md:h-4 rounded-full bg-rose-400 text-rose-400 shadow-lg"></span>
+      <span class="fairy-bulb inline-block w-3.5 h-3.5 md:w-4 md:h-4 rounded-full bg-emerald-300 text-emerald-300 shadow-lg"></span>
+      <span class="fairy-bulb inline-block w-3.5 h-3.5 md:w-4 md:h-4 rounded-full bg-amber-200 text-amber-200 shadow-lg"></span>
+      <span class="fairy-bulb inline-block w-3.5 h-3.5 md:w-4 md:h-4 rounded-full bg-pink-300 text-pink-300 shadow-lg"></span>
+      <span class="fairy-bulb inline-block w-3.5 h-3.5 md:w-4 md:h-4 rounded-full bg-violet-400 text-violet-400 shadow-lg"></span>
+      <span class="fairy-bulb inline-block w-3.5 h-3.5 md:w-4 md:h-4 rounded-full bg-yellow-300 text-yellow-300 shadow-lg"></span>
+    </div>
+  </div>
+
+  <!-- Audio Controls Floating Button -->
+  <div class="fixed top-5 right-5 z-40 flex items-center gap-2">
+    <button id="musicToggleBtn" class="flex items-center gap-2 px-3.5 py-2 rounded-full glass-card hover:bg-white/10 active:scale-95 transition text-xs md:text-sm font-medium border border-pink-400/30 text-pink-200 shadow-lg backdrop-blur-md">
+      <span id="musicIcon" class="text-base">🎵</span>
+      <span id="musicLabel">Play Birthday Song 🎶</span>
+    </button>
+  </div>
+
+  <!-- Balloon Container for Floating Mini-Game -->
+  <div id="balloonGarden" class="fixed inset-0 pointer-events-none z-20 overflow-hidden"></div>
+
+  <!-- Main Content Wrapper -->
+  <main class="relative z-10 max-w-5xl mx-auto px-4 pt-20 pb-28 flex flex-col items-center">
+
+    <!-- Hero Title -->
+    <header class="text-center space-y-4 max-w-2xl mt-4">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-300 text-xs sm:text-sm font-medium backdrop-blur-md">
+        <span>🎡 November 10th</span>
+        <span>•</span>
+        <span>Janamdin Mubarak Meri Jaan ❤️</span>
+      </div>
+      
+      <h1 class="text-4xl sm:text-6xl md:text-7xl font-serif-title font-extrabold tracking-tight glow-gold leading-tight">
+        Happy Birthday, <br class="hidden sm:inline" />
+        <span class="bg-gradient-to-r from-amber-300 via-pink-400 to-purple-400 bg-clip-text text-transparent">Meenal!</span> ✨
+      </h1>
+
+      <p class="font-handwriting text-2xl sm:text-3xl text-pink-200/90 leading-relaxed">
+        Meri duniya ki sabse pyari ladki ko janamdin ki dher saari shubhkaamnayein! I Love You So Much! ❤️
+      </p>
+    </header>
+
+    <!-- ROMANTIC LOVE WIDGET: "I Love You Meenal" -->
+    <section class="mt-8 w-full max-w-xl mx-auto">
+      <div class="glass-card p-6 sm:p-7 rounded-3xl border border-pink-400/30 shadow-[0_0_35px_rgba(244,114,182,0.25)] relative overflow-hidden text-center">
+        <div class="absolute -top-10 -right-10 w-28 h-28 bg-pink-500/20 rounded-full blur-xl pointer-events-none"></div>
+        <div class="absolute -bottom-10 -left-10 w-28 h-28 bg-rose-500/20 rounded-full blur-xl pointer-events-none"></div>
+
+        <div class="flex items-center justify-center gap-2 mb-2">
+          <span class="text-2xl animate-bounce">💖</span>
+          <h2 class="text-2xl sm:text-3xl font-serif-title font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-rose-300 to-amber-200">
+            Meenal, I Love You!
+          </h2>
+          <span class="text-2xl animate-bounce">💖</span>
+        </div>
+
+        <p class="text-xs sm:text-sm text-pink-100 font-medium">
+          Tum meri life ki sabse khoobsurat blessing ho. Jitni baar dil dhadakta hai, utni baar sirf tum yaad aati ho!
+        </p>
+
+        <!-- Tap for Love Button & Meter -->
+        <div class="mt-5 flex flex-col items-center">
+          <button id="loveCounterBtn" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white font-semibold text-sm shadow-lg shadow-pink-500/30 active:scale-90 transition transform flex items-center gap-2">
+            <span>❤️ Tap To Send Pyar</span>
+            <span id="loveCountDisplay" class="bg-white/20 px-2 py-0.5 rounded-full text-xs font-mono font-bold">0</span>
+          </button>
+          <p id="loveStatusText" class="text-xs text-amber-200/90 font-medium mt-3 italic h-5 transition-all duration-300">
+            Tap button to shower love for Meenal! 🌸
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE TAP-TAP CAKE CUTTING SECTION -->
+    <section class="mt-14 w-full max-w-xl mx-auto flex flex-col items-center text-center">
+      <div class="glass-card w-full p-6 sm:p-8 rounded-3xl border border-pink-500/20 shadow-2xl relative overflow-hidden">
+        
+        <div class="absolute -right-16 -top-16 w-36 h-36 bg-pink-500/10 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -left-16 -bottom-16 w-36 h-36 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+        <h2 class="text-2xl sm:text-3xl font-serif-title font-bold text-amber-200">
+          Chalo Cake Kaato Meenal! 🎂🔪
+        </h2>
+        <p class="text-xs sm:text-sm text-zinc-300 mt-1" id="cakeStepHint">
+          Pehle candles bujhao, fir <b>Cake par tap-tap karke cake kaato!</b>
+        </p>
+
+        <!-- Cutting Progress Bar -->
+        <div id="cutProgressWrapper" class="hidden w-48 sm:w-64 mx-auto mt-3 h-2 bg-white/10 rounded-full overflow-hidden border border-white/20">
+          <div id="cutProgressBar" class="h-full bg-gradient-to-r from-pink-500 to-amber-400 w-0 transition-all duration-200"></div>
+        </div>
+
+        <!-- The Animated Cake with Knife & Slice Cut -->
+        <div class="my-6 relative flex flex-col items-center justify-center cursor-pointer select-none" id="cakeContainer" title="Tap tap to cut cake!">
+          
+          <!-- Virtual Knife -->
+          <div id="cakeKnife" class="absolute -top-16 right-16 sm:right-28 text-4xl sm:text-5xl transition-all duration-200 z-30 pointer-events-none drop-shadow-lg opacity-85 transform -rotate-45">
+            🔪
+          </div>
+
+          <!-- Candles Layer -->
+          <div class="flex items-end justify-center gap-5 sm:gap-7 z-10 -mb-1">
+            <!-- Candle 1 -->
+            <div class="flex flex-col items-center">
+              <div id="flame1" class="flame w-4 h-6 bg-gradient-to-t from-red-500 via-amber-400 to-yellow-100 rounded-full shadow-[0_0_15px_#f59e0b]"></div>
+              <div class="w-2.5 h-9 bg-gradient-to-r from-pink-300 to-pink-400 rounded-t-sm shadow-inner border-t border-white/50"></div>
+            </div>
+            <!-- Candle 2 (Center) -->
+            <div class="flex flex-col items-center -translate-y-2">
+              <div id="flame2" class="flame w-4 h-6 bg-gradient-to-t from-red-500 via-amber-400 to-yellow-100 rounded-full shadow-[0_0_15px_#f59e0b]"></div>
+              <div class="w-2.5 h-11 bg-gradient-to-r from-amber-200 to-amber-300 rounded-t-sm shadow-inner border-t border-white/50"></div>
+            </div>
+            <!-- Candle 3 -->
+            <div class="flex flex-col items-center">
+              <div id="flame3" class="flame w-4 h-6 bg-gradient-to-t from-red-500 via-amber-400 to-yellow-100 rounded-full shadow-[0_0_15px_#f59e0b]"></div>
+              <div class="w-2.5 h-9 bg-gradient-to-r from-violet-300 to-violet-400 rounded-t-sm shadow-inner border-t border-white/50"></div>
+            </div>
+          </div>
+
+          <!-- Cake Tier 1 (Top) -->
+          <div class="w-40 sm:w-48 h-14 bg-gradient-to-r from-rose-200 via-pink-100 to-rose-200 rounded-t-2xl shadow-md relative border-b-2 border-pink-300 flex items-center justify-around px-2 overflow-hidden">
+            <!-- Cut slit mark -->
+            <div id="cutLineTop" class="absolute top-0 bottom-0 left-1/2 w-0.5 bg-rose-400/80 scale-y-0 transition-transform duration-300"></div>
+            <span class="text-sm">🍓</span>
+            <span class="text-xs">✨</span>
+            <span class="text-sm">🍓</span>
+            <span class="text-xs">✨</span>
+            <span class="text-sm">🍓</span>
+          </div>
+
+          <!-- Cake Tier 2 (Bottom) -->
+          <div class="w-56 sm:w-64 h-20 bg-gradient-to-r from-amber-100 via-rose-100 to-pink-200 rounded-t-xl rounded-b-lg shadow-xl relative border-t-2 border-pink-200/60 flex items-center justify-around px-3 overflow-hidden">
+            <!-- Cut slit mark bottom -->
+            <div id="cutLineBottom" class="absolute top-0 bottom-0 left-1/2 w-0.5 bg-rose-400/80 scale-y-0 transition-transform duration-300"></div>
+            <span class="text-base">🌸</span>
+            <span class="text-sm">💖</span>
+            <span class="text-base">🌸</span>
+            <span class="text-sm">💖</span>
+            <span class="text-base">🌸</span>
+          </div>
+
+          <!-- Cake Platter -->
+          <div class="w-64 sm:w-72 h-3.5 bg-gradient-to-r from-slate-300 via-white to-slate-300 rounded-full shadow-2xl mt-0.5 border border-white/40"></div>
+
+          <!-- Sliced Piece that flies out onto a serving plate -->
+          <div id="slicedCakePlate" class="absolute -right-2 sm:-right-8 bottom-0 opacity-0 transform translate-x-12 translate-y-6 scale-50 transition-all duration-700 pointer-events-none z-20">
+            <div class="flex flex-col items-center">
+              <span class="text-3xl filter drop-shadow">🍰</span>
+              <div class="w-16 h-2 bg-white/70 rounded-full shadow border border-amber-300"></div>
+              <span class="text-[11px] font-bold text-amber-300 mt-1 font-polaroid">Here's your bite! 😋</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Button (Blow / Tap to Cut) -->
+        <button id="cakeActionButton" class="px-6 py-3 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 hover:from-pink-600 hover:to-amber-600 text-white font-semibold text-sm sm:text-base shadow-lg shadow-pink-500/25 transition-all transform active:scale-95 flex items-center gap-2 mx-auto">
+          <span>🕯️ Blow Out Candles First</span>
+        </button>
+
+        <!-- Wish Message Revealed -->
+        <div id="wishRevealedNotice" class="hidden mt-6 p-4 rounded-2xl bg-amber-400/10 border border-amber-400/30 text-amber-200 animate-fade-in">
+          <p class="font-handwriting text-2xl text-amber-300">🌟 Cake cut ho gaya! Happy Birthday Meenal! 🍰</p>
+          <p class="text-xs text-zinc-300 mt-1">Sabse pehla bite mere babu ke liye! Tum hamesha aise hi muskuraati raho. ❤️</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- MEMORIES POLAROID GALLERY SECTION WITH ALL UPLOADED PHOTOS -->
+    <section class="mt-20 w-full flex flex-col items-center">
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-xs font-medium mb-2">
+          <span>📸 Hamari Pyaari Memories</span>
+        </div>
+        <h3 class="text-3xl sm:text-4xl font-serif-title font-bold text-pink-200">Every Moment With You Is Special</h3>
+        <p class="text-xs sm:text-sm text-zinc-400 mt-1">Tap any photo to take a closer look! 💖</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 w-full">
+
+        <!-- Polaroid 1: Carnival Giant Wheel (Original Main) -->
+        <div class="polaroid-card bg-white p-3.5 pb-5 rounded-lg rotate-[-2deg] relative group cursor-pointer">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-pink-100/80 border border-pink-300/40 rotate-1 shadow-xs z-10 pointer-events-none"></div>
+          <div class="aspect-[3/4] bg-slate-900 rounded overflow-hidden">
+            <img src="1000179706.jpg" alt="Meenal under the Ferris Wheel" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='1000179706_2.jpg';"/>
+          </div>
+          <div class="mt-3 text-center">
+            <p class="font-polaroid text-2xl text-zinc-800 font-bold">Carnival Night & Meri Jaan 🎡✨</p>
+            <p class="text-[11px] text-zinc-500 font-sans">Giant wheel ke neeche wali sabse pyaari shaam</p>
+          </div>
+        </div>
+
+        <!-- Polaroid 2: Mall Laughing Candid -->
+        <div class="polaroid-card bg-white p-3.5 pb-5 rounded-lg rotate-[2deg] relative group cursor-pointer">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-amber-100/80 border border-amber-300/40 -rotate-2 shadow-xs z-10 pointer-events-none"></div>
+          <div class="aspect-[3/4] bg-slate-900 rounded overflow-hidden">
+            <img src="1000147867.jpg" alt="Laughing candid with Meenal" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='https://placehold.co/600x800/222/fff?text=Love+You+Meenal';"/>
+          </div>
+          <div class="mt-3 text-center">
+            <p class="font-polaroid text-2xl text-zinc-800 font-bold">Ye Hassi Pe Dil Fida Hai 😂❤️</p>
+            <p class="text-[11px] text-zinc-500 font-sans">Jab tum aise sharma ke hasti ho na, bas dekhte rehne ka mann karta hai!</p>
+          </div>
+        </div>
+
+        <!-- Polaroid 3: Mirror Selfie Cozy -->
+        <div class="polaroid-card bg-white p-3.5 pb-5 rounded-lg rotate-[-1deg] relative group cursor-pointer">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-emerald-100/80 border border-emerald-300/40 rotate-1 shadow-xs z-10 pointer-events-none"></div>
+          <div class="aspect-[3/4] bg-slate-900 rounded overflow-hidden">
+            <img src="1000139281.jpg" alt="Mirror selfie together" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='https://placehold.co/600x800/222/fff?text=Us+Forever';"/>
+          </div>
+          <div class="mt-3 text-center">
+            <p class="font-polaroid text-2xl text-zinc-800 font-bold">Mirror Selfies & Sukoon 🪞✨</p>
+            <p class="text-[11px] text-zinc-500 font-sans">Mere bagal me khadi tum sabse pyaari lagti ho</p>
+          </div>
+        </div>
+
+        <!-- Polaroid 4: Peace Sign Cute Selfie -->
+        <div class="polaroid-card bg-white p-3.5 pb-5 rounded-lg rotate-[1.5deg] relative group cursor-pointer">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-purple-100/80 border border-purple-300/40 -rotate-1 shadow-xs z-10 pointer-events-none"></div>
+          <div class="aspect-[3/4] bg-slate-900 rounded overflow-hidden">
+            <img src="3d6714ef-c1c1-4f9f-858c-145f2e0c69ad-1_all_2795.jpg" alt="Peace sign selfie" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='https://placehold.co/600x800/222/fff?text=Cute+Peace+Sign';"/>
+          </div>
+          <div class="mt-3 text-center">
+            <p class="font-polaroid text-2xl text-zinc-800 font-bold">Peace & Endless Love ✌️🥰</p>
+            <p class="text-[11px] text-zinc-500 font-sans">Cute poses and non-stop bak-bak with you!</p>
+          </div>
+        </div>
+
+        <!-- Polaroid 5: Full Length Mirror Pose 1 -->
+        <div class="polaroid-card bg-white p-3.5 pb-5 rounded-lg rotate-[-2deg] relative group cursor-pointer">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-cyan-100/80 border border-cyan-300/40 rotate-2 shadow-xs z-10 pointer-events-none"></div>
+          <div class="aspect-[3/4] bg-slate-900 rounded overflow-hidden">
+            <img src="3d6714ef-c1c1-4f9f-858c-145f2e0c69ad-1_all_2796.jpg" alt="Full length mirror outfit" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='https://placehold.co/600x800/222/fff?text=Perfect+Duo';"/>
+          </div>
+          <div class="mt-3 text-center">
+            <p class="font-polaroid text-2xl text-zinc-800 font-bold">The Prettiest Girl in the World 🌸💫</p>
+            <p class="text-[11px] text-zinc-500 font-sans">Hum dono ki jodi ekdum blockbuster!</p>
+          </div>
+        </div>
+
+        <!-- Polaroid 6: Door Mirror Pose 2 -->
+        <div class="polaroid-card bg-white p-3.5 pb-5 rounded-lg rotate-[1deg] relative group cursor-pointer">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-rose-100/80 border border-rose-300/40 -rotate-1 shadow-xs z-10 pointer-events-none"></div>
+          <div class="aspect-[3/4] bg-slate-900 rounded overflow-hidden">
+            <img src="3d6714ef-c1c1-4f9f-858c-145f2e0c69ad-1_all_2791.jpg" alt="Door mirror pose" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='https://placehold.co/600x800/222/fff?text=Always+Together';"/>
+          </div>
+          <div class="mt-3 text-center">
+            <p class="font-polaroid text-2xl text-zinc-800 font-bold">Forever Tera Hero ❤️🕺</p>
+            <p class="text-[11px] text-zinc-500 font-sans">Har din, har saal, bas tumhara saath chahiye</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Balloon Pop Mini Game Banner -->
+    <section class="mt-16 w-full max-w-xl text-center">
+      <div class="glass-card px-5 py-4 rounded-2xl border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="flex items-center gap-3 text-left">
+          <div class="w-10 h-10 rounded-full bg-pink-500/20 flex items-center justify-center text-xl shrink-0">
+            🎈
+          </div>
+          <div>
+            <h4 class="text-sm font-semibold text-pink-200">Meenal Ke Pyare Balloons</h4>
+            <p class="text-xs text-zinc-400">Pop any balloon to reveal sweet romantic wishes!</p>
+          </div>
+        </div>
+        <button id="spawnBalloonsBtn" class="px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-medium text-pink-100 transition whitespace-nowrap active:scale-95">
+          Aur Balloons Udao 🎈
+        </button>
+      </div>
+      <!-- Wish pop notification toast -->
+      <div id="balloonToast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 transition-all duration-300 transform translate-y-3">
+        <div class="bg-gray-900/95 text-pink-200 px-5 py-2.5 rounded-full border border-pink-400/40 shadow-2xl backdrop-blur-md text-sm font-medium flex items-center gap-2">
+          <span id="balloonToastIcon">✨</span>
+          <span id="balloonToastMsg">Wish unlocked!</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- HINGLISH HEARTFELT BIRTHDAY LETTER -->
+    <section class="mt-20 w-full max-w-lg mx-auto flex flex-col items-center">
+      <div class="text-center mb-6">
+        <h3 class="text-2xl font-serif-title font-bold text-pink-200">Dil Ki Baat: Sealed Khat 💌</h3>
+        <p class="text-xs text-zinc-400 mt-1">Tap the wax seal to open this romantic letter for you</p>
+      </div>
+
+      <!-- 3D Interactive Envelope -->
+      <div id="envelopeContainer" class="letter-envelope relative w-full max-w-md h-64 sm:h-72 cursor-pointer select-none">
+        
+        <!-- Envelope Backing -->
+        <div class="absolute inset-0 bg-rose-950/80 rounded-2xl border border-rose-400/20 shadow-2xl overflow-visible"></div>
+
+        <!-- Letter Paper (Slides up on click) -->
+        <div id="letterPaper" class="letter-paper absolute inset-x-4 top-4 bottom-4 bg-[#fffaf0] rounded-xl p-5 sm:p-7 text-zinc-800 shadow-xl overflow-y-auto max-h-72 sm:max-h-80 border border-amber-200/80 flex flex-col justify-between">
+          <div class="space-y-2.5">
+            <div class="flex justify-between items-center border-b border-rose-200 pb-2">
+              <span class="font-handwriting text-2xl text-rose-600 font-bold">Meri Pyaari Meenal,</span>
+              <span class="text-[10px] tracking-wider text-rose-400 font-semibold uppercase">10 November</span>
+            </div>
+            <p class="text-xs sm:text-sm text-zinc-700 leading-relaxed font-sans">
+              Happy Birthday meri jaan! Aaj ke din bas main ye batana chahta hoon ki tum mere liye kitni special ho. Chahe wo fair me giant wheel ke neeche ghoomna ho, ya normal din me mirror ke aage selfies lena ho — tumhare saath har pal ek sapne jaisa lagta hai.
+            </p>
+            <p class="text-xs sm:text-sm text-zinc-700 leading-relaxed font-sans">
+              Tumhari hassi meri favorite cheez hai pure universe me. Main promise karta hoon ki hamesha tumhare chehre par ye cute si smile banaye rakhunga. <b>I love you to the moon and back Meenal!</b> ❤️
+            </p>
+          </div>
+          <div class="pt-2 border-t border-rose-100 flex justify-between items-end">
+            <span class="text-xs text-rose-400 italic font-sans">Hamesha sirf tumhara,</span>
+            <span class="font-handwriting text-xl text-rose-600 font-bold">Lots of Love ❤️</span>
+          </div>
+        </div>
+
+        <!-- Envelope Front Flaps (Pocket) -->
+        <div class="absolute inset-0 pointer-events-none rounded-2xl overflow-hidden z-10">
+          <div class="absolute bottom-0 left-0 w-0 h-0 border-l-[190px] sm:border-l-[220px] border-b-[140px] sm:border-b-[160px] border-l-rose-900 border-b-rose-900/90 border-t-[140px] sm:border-t-[160px] border-t-transparent opacity-95"></div>
+          <div class="absolute bottom-0 right-0 w-0 h-0 border-r-[190px] sm:border-r-[220px] border-b-[140px] sm:border-b-[160px] border-r-rose-900 border-b-rose-900/90 border-t-[140px] sm:border-t-[160px] border-t-transparent opacity-95"></div>
+          <div class="absolute bottom-0 inset-x-0 w-0 h-0 mx-auto border-b-[140px] sm:border-b-[160px] border-b-rose-800 border-x-[190px] sm:border-x-[220px] border-x-transparent"></div>
+        </div>
+
+        <!-- Envelope Top Flap with Wax Seal -->
+        <div id="envelopeFlap" class="envelope-flap absolute top-0 inset-x-0 h-32 sm:h-36 z-15 flex justify-center items-start">
+          <div class="w-0 h-0 border-t-[130px] sm:border-t-[145px] border-t-rose-700 border-x-[190px] sm:border-x-[220px] border-x-transparent drop-shadow-md relative">
+            <div id="waxSeal" class="absolute -top-[52px] left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-gradient-to-tr from-amber-700 via-amber-500 to-amber-300 shadow-xl border-2 border-amber-200/50 flex items-center justify-center transform active:scale-90 transition pointer-events-auto">
+              <span class="text-amber-950 font-serif font-black text-xl select-none">M</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <p id="envelopeHelpText" class="text-xs text-pink-300/80 mt-4 font-medium animate-pulse">
+        ✉️ Wax seal par tap karke letter kholo
+      </p>
+    </section>
+
+    <!-- Gift / Wishes Flip Cards in Hinglish -->
+    <section class="mt-20 w-full">
+      <div class="text-center mb-8">
+        <h3 class="text-2xl sm:text-3xl font-serif-title font-bold text-amber-200">Meenal Ke Liye 3 Pyaare Promises 🎁</h3>
+        <p class="text-xs sm:text-sm text-zinc-400 mt-1">Cards ko tap karke flip karo aur dekho</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <!-- Card 1 -->
+        <div class="flip-card h-48 cursor-pointer perspective">
+          <div class="flip-card-inner relative w-full h-full rounded-2xl shadow-xl transition-transform duration-700">
+            <div class="backface-hidden absolute inset-0 glass-card rounded-2xl p-6 flex flex-col items-center justify-center text-center border border-pink-400/20 hover:border-pink-400/50 transition">
+              <span class="text-3xl mb-2">💖</span>
+              <h4 class="font-serif-title font-bold text-pink-200">Hamesha Saath</h4>
+              <span class="text-[11px] text-zinc-400 mt-1">Tap karke padho</span>
+            </div>
+            <div class="backface-hidden absolute inset-0 bg-gradient-to-br from-pink-900/90 to-purple-950/90 rounded-2xl p-5 flex flex-col items-center justify-center text-center border border-pink-300/30 rotate-y-180">
+              <p class="text-xs sm:text-sm text-pink-100 font-medium">Chahe jo bhi situation ho, mera haath hamesha tumhare haath me hoga. Love you! ❤️</p>
+              <span class="text-xl mt-2">🤝✨</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="flip-card h-48 cursor-pointer perspective">
+          <div class="flip-card-inner relative w-full h-full rounded-2xl shadow-xl transition-transform duration-700">
+            <div class="backface-hidden absolute inset-0 glass-card rounded-2xl p-6 flex flex-col items-center justify-center text-center border border-amber-400/20 hover:border-amber-400/50 transition">
+              <span class="text-3xl mb-2">🎡</span>
+              <h4 class="font-serif-title font-bold text-amber-200">Lots of Fun & Trips</h4>
+              <span class="text-[11px] text-zinc-400 mt-1">Tap karke padho</span>
+            </div>
+            <div class="backface-hidden absolute inset-0 bg-gradient-to-br from-amber-950/90 to-rose-950/90 rounded-2xl p-5 flex flex-col items-center justify-center text-center border border-amber-300/30 rotate-y-180">
+              <p class="text-xs sm:text-sm text-amber-100 font-medium">Bahut saare carnival ghoomenge, late night drives karenge aur mast food khayenge!</p>
+              <span class="text-xl mt-2">🍦🎢</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="flip-card h-48 cursor-pointer perspective">
+          <div class="flip-card-inner relative w-full h-full rounded-2xl shadow-xl transition-transform duration-700">
+            <div class="backface-hidden absolute inset-0 glass-card rounded-2xl p-6 flex flex-col items-center justify-center text-center border border-purple-400/20 hover:border-purple-400/50 transition">
+              <span class="text-3xl mb-2">🌸</span>
+              <h4 class="font-serif-title font-bold text-purple-200">Chehre Pe Cute Smile</h4>
+              <span class="text-[11px] text-zinc-400 mt-1">Tap karke padho</span>
+            </div>
+            <div class="backface-hidden absolute inset-0 bg-gradient-to-br from-purple-900/90 to-indigo-950/90 rounded-2xl p-5 flex flex-col items-center justify-center text-center border border-purple-300/30 rotate-y-180">
+              <p class="text-xs sm:text-sm text-purple-100 font-medium">Tumhe hamesha hasate rahunga aur jab bhi gussa ho to manate rahunga! 🥰</p>
+              <span class="text-xl mt-2">🌹💌</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-24 text-center space-y-2 text-zinc-500 text-xs">
+      <p class="font-handwriting text-2xl text-pink-300">Happy Birthday Meenal • I Love You Forever ❤️</p>
+      <p>10th November Carnival of Love ✨</p>
+    </footer>
+
+  </main>
+
+  <!-- JAVASCRIPT: Logic, Sound Engine, Particle Starfield, Cake-Cut Mini-game -->
+  <script>
+    /* ==========================================================
+       1. SYNTHESIZED BIRTHDAY SONG & AUDIO (Web Audio API)
+       ========================================================== */
+    class BirthdayAudioEngine {
+      constructor() {
+        this.ctx = null;
+        this.isPlayingMelody = false;
+        this.melodyTimeout = null;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContext();
+        }
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      playTone(freq, duration = 0.4, type = 'sine', gainVal = 0.15) {
+        this.init();
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+        gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start();
+        osc.stop(this.ctx.currentTime + duration);
+      }
+
+      playSliceSound() {
+        this.init();
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(500, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(150, this.ctx.currentTime + 0.18);
+
+        gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.18);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.19);
+      }
+
+      playPop() {
+        this.init();
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(340, now);
+        osc.frequency.exponentialRampToValueAtTime(80, now + 0.12);
+
+        gain.gain.setValueAtTime(0.35, now);
+        gain.gain.linearRampToValueAtTime(0.01, now + 0.12);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.13);
+      }
+
+      playExtinguish() {
+        this.init();
+        const bufferSize = this.ctx.sampleRate * 0.4;
+        const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(600, this.ctx.currentTime);
+        filter.frequency.exponentialRampToValueAtTime(200, this.ctx.currentTime + 0.4);
+
+        const gain = this.ctx.createGain();
+        gain.gain.setValueAtTime(0.25, this.ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.4);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        noise.start();
+      }
+
+      playCheerChord() {
+        this.init();
+        const notes = [523.25, 659.25, 783.99, 987.77, 1046.50];
+        notes.forEach((freq, idx) => {
+          setTimeout(() => {
+            this.playTone(freq, 1.2, 'sine', 0.15);
+          }, idx * 75);
+        });
+      }
+
+      startBirthdaySong() {
+        this.init();
+        this.isPlayingMelody = true;
+
+        // Accurate "Happy Birthday to you, Happy Birthday to Meenal" tune
+        // G4 G4 A4 G4 C5 B4 | G4 G4 A4 G4 D5 C5 | G4 G4 G5 E5 C5 B4 A4 | F5 F5 E5 C5 D5 C5
+        const G4 = 392.00, A4 = 440.00, B4 = 493.88, C5 = 523.25, D5 = 587.33, E5 = 659.25, F5 = 698.46, G5 = 783.99;
+        
+        const songNotes = [
+          // Happy Birthday to you
+          { f: G4, d: 0.3 }, { f: G4, d: 0.2 }, { f: A4, d: 0.5 }, { f: G4, d: 0.5 }, { f: C5, d: 0.5 }, { f: B4, d: 0.9 },
+          // Happy Birthday to you
+          { f: G4, d: 0.3 }, { f: G4, d: 0.2 }, { f: A4, d: 0.5 }, { f: G4, d: 0.5 }, { f: D5, d: 0.5 }, { f: C5, d: 0.9 },
+          // Happy Birthday to dear Meenal
+          { f: G4, d: 0.3 }, { f: G4, d: 0.2 }, { f: G5, d: 0.5 }, { f: E5, d: 0.5 }, { f: C5, d: 0.5 }, { f: B4, d: 0.5 }, { f: A4, d: 0.8 },
+          // Happy Birthday to you!
+          { f: F5, d: 0.3 }, { f: F5, d: 0.2 }, { f: E5, d: 0.5 }, { f: C5, d: 0.5 }, { f: D5, d: 0.5 }, { f: C5, d: 1.2 }
+        ];
+
+        let timeOffset = 0;
+        songNotes.forEach((note) => {
+          this.melodyTimeout = setTimeout(() => {
+            if (this.isPlayingMelody) {
+              this.playTone(note.f, note.d * 1.1, 'triangle', 0.18);
+            }
+          }, timeOffset);
+          timeOffset += note.d * 680;
+        });
+
+        this.melodyTimeout = setTimeout(() => {
+          if (this.isPlayingMelody) {
+            this.startBirthdaySong();
+          }
+        }, timeOffset + 800);
+      }
+
+      stopMelody() {
+        this.isPlayingMelody = false;
+        if (this.melodyTimeout) {
+          clearTimeout(this.melodyTimeout);
+        }
+      }
+    }
+
+    const audio = new BirthdayAudioEngine();
+
+    // Toggle Music Button
+    const musicBtn = document.getElementById('musicToggleBtn');
+    const musicIcon = document.getElementById('musicIcon');
+    const musicLabel = document.getElementById('musicLabel');
+
+    musicBtn.addEventListener('click', () => {
+      if (audio.isPlayingMelody) {
+        audio.stopMelody();
+        musicIcon.textContent = '🎵';
+        musicLabel.textContent = 'Play Birthday Song 🎶';
+      } else {
+        audio.startBirthdaySong();
+        musicIcon.textContent = '⏸️';
+        musicLabel.textContent = 'Pause Music';
+      }
+    });
+
+    /* ==========================================================
+       2. INTERACTIVE TWINKLING CARNIVAL STARFIELD (Canvas)
+       ========================================================== */
+    const canvas = document.getElementById('starfieldCanvas');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initStars();
+    }
+
+    function initStars() {
+      stars = [];
+      const count = Math.floor((canvas.width * canvas.height) / 7000);
+      for (let i = 0; i < count; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 1.5 + 0.5,
+          alpha: Math.random() * 0.8 + 0.2,
+          speed: Math.random() * 0.02 + 0.005,
+          color: ['#ffffff', '#fde047', '#f472b6', '#a78bfa', '#67e8f9'][Math.floor(Math.random() * 5)]
+        });
+      }
+    }
+
+    function renderStarfield() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach(star => {
+        star.alpha += star.speed;
+        if (star.alpha > 1 || star.alpha < 0.2) star.speed = -star.speed;
+
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = star.color;
+        ctx.globalAlpha = Math.max(0.1, Math.min(1, star.alpha));
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = star.color;
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1.0;
+      ctx.shadowBlur = 0;
+      requestAnimationFrame(renderStarfield);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    renderStarfield();
+
+    /* ==========================================================
+       3. TAP-TAP CAKE CUTTING SYSTEM
+       ========================================================== */
+    const flames = [
+      document.getElementById('flame1'),
+      document.getElementById('flame2'),
+      document.getElementById('flame3')
+    ];
+    const cakeActionButton = document.getElementById('cakeActionButton');
+    const cakeContainer = document.getElementById('cakeContainer');
+    const wishNotice = document.getElementById('wishRevealedNotice');
+    const cakeKnife = document.getElementById('cakeKnife');
+    const cutLineTop = document.getElementById('cutLineTop');
+    const cutLineBottom = document.getElementById('cutLineBottom');
+    const slicedCakePlate = document.getElementById('slicedCakePlate');
+    const cakeStepHint = document.getElementById('cakeStepHint');
+    const cutProgressWrapper = document.getElementById('cutProgressWrapper');
+    const cutProgressBar = document.getElementById('cutProgressBar');
+
+    let candlesBlown = false;
+    let cutTaps = 0;
+    const requiredTaps = 4; // 4 taps to cut full slice
+    let cakeFullyCut = false;
+
+    function blowCandles() {
+      candlesBlown = true;
+      audio.playExtinguish();
+
+      flames.forEach(flame => {
+        flame.classList.add('extinguished');
+        createSmokePuff(flame);
+      });
+
+      cakeStepHint.innerHTML = "Candles bujh gayi! Now <b>Cake par tap-tap karke knife chalao aur cut karo!</b> 🔪";
+      cakeActionButton.innerHTML = '<span>🔪 Tap Cake to Cut Slice (0/4)</span>';
+      cakeActionButton.classList.replace('from-pink-500', 'from-amber-500');
+      cutProgressWrapper.classList.remove('hidden');
+
+      // knife comes down to hovering position
+      cakeKnife.style.transform = 'translate(-30px, 35px) rotate(-35deg)';
+    }
+
+    function tapToCutCake() {
+      if (!candlesBlown) {
+        blowCandles();
+        return;
+      }
+      if (cakeFullyCut) return;
+
+      cutTaps++;
+      audio.playSliceSound();
+
+      // Knife cutting motion
+      cakeKnife.style.transform = `translate(-${30 + cutTaps * 6}px, ${35 + cutTaps * 22}px) rotate(-15deg)`;
+
+      // Progress bar & slit visualization
+      const pct = (cutTaps / requiredTaps) * 100;
+      cutProgressBar.style.width = `${pct}%`;
+      cakeActionButton.innerHTML = `<span>🔪 Cutting... Tap again! (${cutTaps}/${requiredTaps})</span>`;
+
+      if (cutTaps >= 2) {
+        cutLineTop.style.transform = 'scaleY(1)';
+      }
+      if (cutTaps >= 3) {
+        cutLineBottom.style.transform = 'scaleY(1)';
+      }
+
+      // Sparkles on each tap
+      if (typeof confetti === 'function') {
+        const rect = cakeContainer.getBoundingClientRect();
+        confetti({
+          particleCount: 12,
+          spread: 40,
+          origin: {
+            x: (rect.left + rect.width / 2) / window.innerWidth,
+            y: (rect.top + rect.height / 2) / window.innerHeight
+          },
+          colors: ['#f472b6', '#fbbf24']
+        });
+      }
+
+      // Slice finished!
+      if (cutTaps >= requiredTaps) {
+        finishCakeCut();
+      }
+    }
+
+    function finishCakeCut() {
+      cakeFullyCut = true;
+      audio.playCheerChord();
+
+      // Knife rests to the side
+      cakeKnife.style.transform = 'translate(45px, 60px) rotate(60deg)';
+      cakeKnife.style.opacity = '0.5';
+
+      // Sliced piece flies onto the serving plate
+      slicedCakePlate.classList.remove('opacity-0', 'translate-x-12', 'translate-y-6', 'scale-50');
+      slicedCakePlate.classList.add('opacity-100', 'translate-x-0', 'translate-y-0', 'scale-100');
+
+      // Grand celebration confetti
+      triggerFestiveConfetti();
+
+      cakeStepHint.innerHTML = "🎉 Wah! Cake cut ho gaya! Ekdum perfect slice cut kiya hai! 🍰❤️";
+      cakeActionButton.innerHTML = '<span>❤️ Happy Birthday Meenal! Eat Cake 🍰</span>';
+      cakeActionButton.classList.replace('from-amber-500', 'from-emerald-500');
+      wishNotice.classList.remove('hidden');
+
+      // Auto start birthday song if not already playing!
+      if (!audio.isPlayingMelody) {
+        audio.startBirthdaySong();
+        musicIcon.textContent = '⏸️';
+        musicLabel.textContent = 'Pause Music';
+      }
+    }
+
+    function createSmokePuff(element) {
+      const rect = element.getBoundingClientRect();
+      const parent = document.body;
+      for (let i = 0; i < 6; i++) {
+        const p = document.createElement('div');
+        p.className = 'smoke-particle';
+        p.style.left = `${rect.left + rect.width / 2}px`;
+        p.style.top = `${rect.top}px`;
+        p.style.setProperty('--dx', `${(Math.random() - 0.5) * 35}px`);
+        p.style.animationDelay = `${i * 0.08}s`;
+        parent.appendChild(p);
+        setTimeout(() => p.remove(), 1600);
+      }
+    }
+
+    function triggerFestiveConfetti() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 90,
+          spread: 80,
+          origin: { y: 0.65 },
+          colors: ['#f472b6', '#fbbf24', '#c084fc', '#38bdf8', '#ef4444']
+        });
+
+        setTimeout(() => {
+          confetti({
+            particleCount: 60,
+            angle: 60,
+            spread: 60,
+            origin: { x: 0 },
+            colors: ['#fbbf24', '#f472b6', '#ffffff']
+          });
+        }, 250);
+
+        setTimeout(() => {
+          confetti({
+            particleCount: 60,
+            angle: 120,
+            spread: 60,
+            origin: { x: 1 },
+            colors: ['#a78bfa', '#f472b6', '#38bdf8']
+          });
+        }, 400);
+      }
+    }
+
+    cakeActionButton.addEventListener('click', tapToCutCake);
+    cakeContainer.addEventListener('click', tapToCutCake);
+
+    /* ==========================================================
+       4. LOVE WIDGET: "I Love You Meenal" COUNTER & MESSAGES
+       ========================================================== */
+    const loveCounterBtn = document.getElementById('loveCounterBtn');
+    const loveCountDisplay = document.getElementById('loveCountDisplay');
+    const loveStatusText = document.getElementById('loveStatusText');
+    let loveCount = 0;
+
+    const loveMessages = [
+      "I love you so much Meenal! ❤️",
+      "Meenal, tum meri jaan ho! 💖",
+      "Har janam me sirf tumhara saath chahiye! ✨",
+      "Tumhari smile pe mera dil kurbaan! 🥰",
+      "Duniya ki sabse cute ladki Meenal hai! 🌸",
+      "Hamesha aise hi saath rahenge hum dono! 🎡",
+      "I love you more than words can say! 💌",
+      "Infinite times Love You Meri Jaan! 💫"
+    ];
+
+    loveCounterBtn.addEventListener('click', (e) => {
+      loveCount++;
+      loveCountDisplay.textContent = loveCount;
+      audio.playTone(520 + (loveCount % 8) * 45, 0.2, 'sine', 0.2);
+
+      const msg = loveMessages[loveCount % loveMessages.length];
+      loveStatusText.textContent = msg;
+
+      // Little flying heart effect
+      const heart = document.createElement('div');
+      heart.textContent = '❤️';
+      heart.className = 'fixed pointer-events-none text-2xl z-50 transition-all duration-1000';
+      heart.style.left = `${e.clientX || window.innerWidth / 2}px`;
+      heart.style.top = `${e.clientY || window.innerHeight / 2}px`;
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.style.transform = `translate(${(Math.random() - 0.5) * 80}px, -100px) scale(1.6)`;
+        heart.style.opacity = '0';
+      }, 20);
+
+      setTimeout(() => heart.remove(), 1050);
+    });
+
+    /* ==========================================================
+       5. BALLOON POPPING MINI GAME (Hinglish Wishes)
+       ========================================================== */
+    const balloonGarden = document.getElementById('balloonGarden');
+    const balloonToast = document.getElementById('balloonToast');
+    const balloonToastMsg = document.getElementById('balloonToastMsg');
+    const balloonToastIcon = document.getElementById('balloonToastIcon');
+    const spawnBtn = document.getElementById('spawnBalloonsBtn');
+
+    const wishesList = [
+      { text: "Meenal, I love you so much! ❤️", icon: "💖" },
+      { text: "Hamesha khush raho meri jaan ✨", icon: "😊" },
+      { text: "Saari wishes poori ho tumhari 💫", icon: "🌠" },
+      { text: "Hum dono hamesha saath rahein 🎡", icon: "🎠" },
+      { text: "Tum duniya ki sabse pyari ladki ho 🌸", icon: "✨" },
+      { text: "Happy Birthday my love! 🎂", icon: "🍰" }
+    ];
+
+    const balloonColors = [
+      { bg: 'bg-rose-500', shadow: 'rgba(244, 63, 94, 0.4)' },
+      { bg: 'bg-amber-400', shadow: 'rgba(251, 191, 36, 0.4)' },
+      { bg: 'bg-pink-400', shadow: 'rgba(244, 114, 182, 0.4)' },
+      { bg: 'bg-violet-500', shadow: 'rgba(139, 92, 246, 0.4)' },
+      { bg: 'bg-cyan-400', shadow: 'rgba(34, 211, 238, 0.4)' }
+    ];
+
+    function showBalloonWish(wish) {
+      balloonToastIcon.textContent = wish.icon;
+      balloonToastMsg.textContent = wish.text;
+      balloonToast.classList.remove('opacity-0', 'translate-y-3');
+      balloonToast.classList.add('opacity-100', 'translate-y-0');
+
+      setTimeout(() => {
+        balloonToast.classList.add('opacity-0', 'translate-y-3');
+        balloonToast.classList.remove('opacity-100', 'translate-y-0');
+      }, 2600);
+    }
+
+    function createBalloon() {
+      const b = document.createElement('div');
+      const color = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+      const wish = wishesList[Math.floor(Math.random() * wishesList.length)];
+      
+      const leftPos = Math.random() * 85 + 5;
+      const speed = Math.random() * 6 + 10;
+      const delay = Math.random() * 2;
+      const drift = (Math.random() - 0.5) * 80;
+      const rot = (Math.random() - 0.5) * 25;
+
+      b.className = 'floating-balloon absolute pointer-events-auto flex flex-col items-center';
+      b.style.left = `${leftPos}%`;
+      b.style.setProperty('--speed', `${speed}s`);
+      b.style.setProperty('--delay', `${delay}s`);
+      b.style.setProperty('--drift', `${drift}px`);
+      b.style.setProperty('--rot', `${rot}deg`);
+
+      b.innerHTML = `
+        <div class="w-12 h-16 sm:w-14 sm:h-18 ${color.bg} rounded-full rounded-b-2xl shadow-lg relative flex items-center justify-center border-t border-white/40" style="box-shadow: 0 10px 20px ${color.shadow}">
+          <span class="text-xs select-none filter drop-shadow">🎈</span>
+          <div class="absolute -bottom-1 w-2 h-1.5 ${color.bg} rounded-full"></div>
+        </div>
+        <div class="w-0.5 h-12 bg-white/40"></div>
+      `;
+
+      b.addEventListener('click', (e) => {
+        e.stopPropagation();
+        audio.playPop();
+
+        if (typeof confetti === 'function') {
+          const rect = b.getBoundingClientRect();
+          confetti({
+            particleCount: 16,
+            spread: 45,
+            origin: {
+              x: (rect.left + rect.width / 2) / window.innerWidth,
+              y: (rect.top + rect.height / 2) / window.innerHeight
+            },
+            colors: ['#ffffff', '#fbbf24', '#f472b6']
+          });
+        }
+
+        b.remove();
+        showBalloonWish(wish);
+      });
+
+      balloonGarden.appendChild(b);
+
+      setTimeout(() => {
+        if (b.parentElement) b.remove();
+      }, (speed + delay) * 1000);
+    }
+
+    for (let i = 0; i < 7; i++) {
+      createBalloon();
+    }
+    setInterval(() => {
+      if (balloonGarden.childElementCount < 10) {
+        createBalloon();
+      }
+    }, 3500);
+
+    spawnBtn.addEventListener('click', () => {
+      for (let i = 0; i < 4; i++) {
+        setTimeout(createBalloon, i * 250);
+      }
+    });
+
+    /* ==========================================================
+       6. INTERACTIVE ENVELOPE / LETTER
+       ========================================================== */
+    const envelope = document.getElementById('envelopeContainer');
+    const waxSeal = document.getElementById('waxSeal');
+    const envelopeHelp = document.getElementById('envelopeHelpText');
+    let isEnvelopeOpen = false;
+
+    function toggleEnvelope() {
+      isEnvelopeOpen = !isEnvelopeOpen;
+      if (isEnvelopeOpen) {
+        envelope.classList.add('envelope-open');
+        envelopeHelp.textContent = '✉️ Tap again to close';
+        audio.playTone(659.25, 0.3, 'sine', 0.15);
+        setTimeout(() => audio.playTone(880, 0.4, 'sine', 0.12), 200);
+      } else {
+        envelope.classList.remove('envelope-open');
+        envelopeHelp.textContent = '✉️ Wax seal par tap karke letter kholo';
+        audio.playTone(440, 0.25, 'sine', 0.1);
+      }
+    }
+
+    envelope.addEventListener('click', toggleEnvelope);
+    waxSeal.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleEnvelope();
+    });
+
+    /* ==========================================================
+       7. FLIP CARDS INTERACTION
+       ========================================================== */
+    document.querySelectorAll('.flip-card').forEach(card => {
+      card.addEventListener('click', () => {
+        card.classList.toggle('flipped');
+        audio.playTone(700, 0.15, 'sine', 0.08);
+      });
+    });
+
+    // Start audio on user touch
+    window.addEventListener('click', () => {
+      audio.init();
+    }, { once: true });
+  </script>
+</body>
+</html>
